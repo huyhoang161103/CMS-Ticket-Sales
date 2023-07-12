@@ -1,11 +1,11 @@
 import React, { useState } from "react";
 import "./components.css";
-
 import { NavLink } from "react-router-dom";
 import { Icon } from "@iconify/react";
 
 const Navbar: React.FC = () => {
   const [activeNavItem, setActiveNavItem] = useState<number | null>(null);
+  const [showSettingsSubMenu, setShowSettingsSubMenu] = useState(false);
 
   const handleNavItemClick = (index: number) => {
     setActiveNavItem(index);
@@ -16,7 +16,15 @@ const Navbar: React.FC = () => {
   };
 
   const getNavLinkClass = (path: string) => {
-    return isSublinkActive(path) ? "active" : "";
+    return activeNavItem === 3 && !showSettingsSubMenu && path === "/settings"
+      ? "settings-parent active"
+      : isSublinkActive(path)
+      ? "active"
+      : "";
+  };
+
+  const handleSettingsClick = () => {
+    setShowSettingsSubMenu(!showSettingsSubMenu);
   };
 
   return (
@@ -56,21 +64,23 @@ const Navbar: React.FC = () => {
           </li>
           <li
             className={getNavLinkClass("/settings")}
-            onClick={() => handleNavItemClick(3)}
+            onClick={handleSettingsClick}
           >
             <NavLink to="/settings" onClick={() => handleNavItemClick(3)}>
               <Icon icon="uil:setting" /> Cài đặt
             </NavLink>
-            <ul className="submenu">
-              <li>
-                <NavLink
-                  to="/settings/service-package"
-                  className={getNavLinkClass("/settings/service-package")}
-                >
-                  Gói dịch vụ
-                </NavLink>
-              </li>
-            </ul>
+            {showSettingsSubMenu && (
+              <ul className="submenu">
+                <li>
+                  <NavLink
+                    to="/settings/service-package"
+                    className={getNavLinkClass("/settings/service-package")}
+                  >
+                    Gói dịch vụ
+                  </NavLink>
+                </li>
+              </ul>
+            )}
           </li>
         </ul>
       </div>

@@ -53,10 +53,6 @@
   border-radius: 5px;
 }
 
-/* .navigation a:hover {
-  background-color: #ddd;
-} */
-
 .navigation li.active,
 .navigation li.active a {
   background: var(--yellow-0, #ffb800);
@@ -67,15 +63,19 @@
   color: white; /* Chữ màu trắng cho liên kết a trong mục được chọn */
 }
 
+.submenu .service-package {
+  background-color: red;
+}
+
 .submenu {
   padding: 0;
   margin: 0;
-  margin-top: 8px;
+  margin-top: 15px;
   list-style-type: none;
 }
 
 .submenu li {
-  padding: 0px 16px 80px 33px;
+  padding: 0px 0px 0px 40px;
 }
 
 .submenu a {

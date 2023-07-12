@@ -1,0 +1,13 @@
+{
+  "compilerOptions": {
+    "jsx": "react",
+    "esModuleInterop": true,
+    "allowSyntheticDefaultImports": true,
+    "lib": ["dom", "es2017"],
+    "module": "esnext",
+    "moduleResolution": "node",
+    "noImplicitAny": true,
+    "strict": true,
+    "target": "es5"
+  }
+}

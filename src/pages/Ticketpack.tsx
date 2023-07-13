@@ -3,21 +3,22 @@ import styled from "styled-components";
 import Navbar from "../components/navbar";
 import SearchNotificationBar from "../components/search";
 import { Icon } from "@iconify/react";
-import { Pagination } from "antd";
+import { Pagination, Select } from "antd";
 import { firestore } from "../firebase/config";
-import { Radio } from "antd";
 import type { DatePickerProps } from "antd";
 import { DatePicker, Space } from "antd";
-import { Checkbox, Col, Row } from "antd";
-import type { CheckboxValueType } from "antd/es/checkbox/Group";
+import { TimePicker } from "antd";
+import { Checkbox } from "antd";
+import { CheckboxChangeEvent } from "antd/es/checkbox";
 
-interface TicketData {
-  bookingCode: string;
-  ticketNumber: string;
-  usageStatus: string;
-  usageDate: string;
-  ticketDate: string;
-  checkInGate: string;
+interface TicketPack {
+  applicationDate: String;
+  comboPrice: number;
+  expirationDate: String;
+  packageCode: string;
+  packageName: string;
+  status: string;
+  ticketPrice: number;
 }
 
 const StyledTicketpack = styled.div`
@@ -25,24 +26,55 @@ const StyledTicketpack = styled.div`
 `;
 
 const Ticketpack: React.FC = () => {
-  const [tickets, setTickets] = useState<TicketData[]>([]);
+  const [showOverlay, setShowOverlay] = useState(false);
+  const handleCheckboxChange = (e: CheckboxChangeEvent) => {
+    console.log(e.target.checked);
+  };
+  const onChange: DatePickerProps["onChange"] = (date, dateString) => {
+    console.log(date, dateString);
+  };
+
+  const [ticketPacks, setTicketPacks] = useState<TicketPack[]>([]);
 
   useEffect(() => {
-    const fetchTickets = async () => {
+    const fetchTicketPacks = async () => {
       try {
-        const snapshot = await firestore.collection("tickets").get();
-        const ticketData = snapshot.docs.map((doc) => doc.data() as TicketData);
-        setTickets(ticketData);
+        const snapshot = await firestore.collection("ticketpack").get();
+        const ticketPackData = snapshot.docs.map(
+          (doc) => doc.data() as TicketPack
+        );
+        setTicketPacks(ticketPackData);
       } catch (error) {
-        console.error("Error fetching tickets:", error);
+        console.error("Error fetching ticket packs:", error);
       }
     };
 
-    fetchTickets();
+    fetchTicketPacks();
   }, []);
+
+  const handleSelectChange = (
+    value: string | null,
+    option:
+      | { value: string; label: string }
+      | { value: string; label: string }[]
+  ) => {
+    console.log(value, option);
+  };
+
+  const onSearch = (value: string) => {
+    console.log("search:", value);
+  };
 
   const handlePageChange = (page: number) => {
     console.log("Current page:", page);
+  };
+
+  const handleFilterButtonClick = () => {
+    setShowOverlay(true);
+  };
+
+  const handleCancelOverlay = () => {
+    setShowOverlay(false);
   };
 
   return (
@@ -71,7 +103,12 @@ const Ticketpack: React.FC = () => {
                 <div>
                   <button className="filter-filter-1">Xuất file (.CSV)</button>
 
-                  <button className="filter-filter-2">Thêm gói vé</button>
+                  <button
+                    onClick={handleFilterButtonClick}
+                    className="filter-filter-2"
+                  >
+                    Thêm gói vé
+                  </button>
                 </div>
               </div>
               <div className="ticket-table">
@@ -89,42 +126,38 @@ const Ticketpack: React.FC = () => {
                   </tr>
                 </thead>
                 <tbody>
-                  <tr>
-                    <td>1</td>
-                    <td>GOI001</td>
-                    <td>Gói vé A</td>
-                    <td>01/08/2023</td>
-                    <td>31/12/2023</td>
-                    <td>100,000</td>
-                    <td>200,000</td>
-                    <td>Hoạt động</td>
-                    <td className="no-wrap1">
-                      <Icon icon="lucide:edit" />
-                      Cập nhật
-                    </td>
-                  </tr>
-                  <tr>
-                    <td>2</td>
-                    <td>GOI002</td>
-                    <td>Gói vé B</td>
-                    <td>01/09/2023</td>
-                    <td>30/11/2023</td>
-                    <td>150,000</td>
-                    <td>250,000</td>
-                    <td>Hoạt động</td>
-                    <td></td>
-                  </tr>
-                  <tr>
-                    <td>3</td>
-                    <td>GOI003</td>
-                    <td>Gói vé C</td>
-                    <td>01/10/2023</td>
-                    <td>31/12/2023</td>
-                    <td>120,000</td>
-                    <td>220,000</td>
-                    <td>Hết hạn</td>
-                    <td></td>
-                  </tr>
+                  {ticketPacks.map((ticketPack, index) => (
+                    <tr key={index}>
+                      <td>{index + 1}</td>
+                      <td>{ticketPack.packageCode}</td>
+                      <td className="no-wrap">{ticketPack.packageName}</td>
+                      <td>{ticketPack.applicationDate}</td>
+                      <td>{ticketPack.expirationDate}</td>
+                      <td>{ticketPack.ticketPrice}</td>
+                      <td>{ticketPack.comboPrice}</td>
+                      <td className="no-wrap">
+                        <span
+                          className={
+                            ticketPack.status === "Đang áp dụng"
+                              ? "not-used"
+                              : ticketPack.status === "Tắt"
+                              ? "expired"
+                              : ""
+                          }
+                        >
+                          <Icon
+                            icon="ion:ellipse"
+                            style={{ marginRight: "8px" }}
+                          />
+                          {ticketPack.status}
+                        </span>
+                      </td>
+                      <td className="no-wrap1">
+                        <Icon icon="lucide:edit" />
+                        Cập nhật
+                      </td>
+                    </tr>
+                  ))}
                 </tbody>
 
                 <div className="pagination-container">
@@ -140,6 +173,155 @@ const Ticketpack: React.FC = () => {
           </div>
         </div>
       </div>
+      {showOverlay && (
+        <div className="overlay">
+          <div className="overlay-content">
+            <p>Thêm gói vé</p>
+            <div className="overlay-filter">
+              <div className="row pt-2">
+                <div className="col">
+                  <span>
+                    Tên gói vé <span className="red">*</span>
+                  </span>
+                </div>
+              </div>
+              <div className="row pt-1">
+                <div className="col">
+                  <input type="text" />
+                </div>
+              </div>
+              <div className="row pt-3">
+                <div className="col">
+                  <span>Ngày áp dụng </span>
+                </div>
+                <div className="col">
+                  <span>Ngày hết hạn</span>
+                </div>
+              </div>
+              <div className="row pt-2">
+                <div className="col">
+                  <div className="row">
+                    <div className="col">
+                      {" "}
+                      <Space direction="vertical">
+                        <DatePicker onChange={onChange} format="DD/MM/YYYY" />
+                      </Space>
+                    </div>
+                    <div className="col">
+                      <Space wrap>
+                        <TimePicker use12Hours onChange={onChange} />
+                      </Space>
+                    </div>
+                  </div>
+                </div>
+                <div className="col">
+                  <div className="row">
+                    <div className="col">
+                      {" "}
+                      <Space direction="vertical">
+                        <DatePicker onChange={onChange} format="DD/MM/YYYY" />
+                      </Space>
+                    </div>
+                    <div className="col">
+                      <Space wrap>
+                        <TimePicker use12Hours onChange={onChange} />
+                      </Space>
+                    </div>
+                  </div>
+                </div>
+                <col />
+              </div>
+              <div className="row pt-3">
+                <span>Giá vé áp dụng</span>
+              </div>
+              <div className="row pt-2">
+                <div className="checkbox-input-row">
+                  <Checkbox onChange={handleCheckboxChange}>
+                    Vé lẻ (vnđ/vé) với giá
+                  </Checkbox>
+                  <input
+                    type="text"
+                    className="input-price"
+                    placeholder="Giá vé"
+                  />
+                  /vé
+                </div>
+              </div>
+              <div className="row pt-2">
+                <div className="checkbox-input-row">
+                  <Checkbox onChange={handleCheckboxChange}>
+                    Combo vé với giá
+                  </Checkbox>
+                  <input
+                    type="text"
+                    className="input-price"
+                    placeholder="Giá vé"
+                  />
+                  /
+                  <input
+                    type="text"
+                    className="input-price"
+                    placeholder="Giá vé"
+                  />
+                  /vé
+                </div>
+              </div>
+              <div className="row pt-3">
+                <span>Tình trạng</span>
+              </div>
+              <div className="row pt-2">
+                <div className="">
+                  <Select
+                    className="select-ticket"
+                    showSearch
+                    placeholder="Select a person"
+                    optionFilterProp="children"
+                    onChange={handleSelectChange}
+                    onSearch={onSearch}
+                    filterOption={(input, option) =>
+                      (option?.label ?? "")
+                        .toLowerCase()
+                        .includes(input.toLowerCase())
+                    }
+                    options={[
+                      {
+                        value: "dangapdung",
+                        label: "Đang áp dụng",
+                      },
+                      {
+                        value: "tat",
+                        label: "Tắt",
+                      },
+                    ]}
+                  />
+                </div>
+              </div>
+              <div className="row pt-2">
+                <span>
+                  <span className="red">*</span> là thông tin bắt buộc
+                </span>
+              </div>
+            </div>
+            <div className="pt-4">
+              <div className="huyluu">
+                <button
+                  className="filter-filter-3"
+                  onClick={handleCancelOverlay}
+                >
+                  Hủy
+                </button>
+
+                <button
+                  className="filter-filter-4"
+                  onClick={handleCancelOverlay}
+                >
+                  Lưu
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+      )}
     </StyledTicketpack>
   );
 };

@@ -192,7 +192,7 @@ const Ticket: React.FC = () => {
       </div>
       {showOverlay && (
         <div className="overlay">
-          <div className="overlay-content">
+          <div className="overlay-content-1">
             <p>Lọc vé</p>
             <div className="overlay-filter">
               <div className="row pt-2">

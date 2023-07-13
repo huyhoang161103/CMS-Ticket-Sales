@@ -206,6 +206,48 @@
   border: 1px solid var(--yellow-1, #ff993c);
 }
 
+.huyluu {
+  padding-top: 30px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.filter-filter-3 {
+  background-color: white;
+  color: var(--yellow-1, #ff993c);
+  font-family: monospace;
+  font-size: 18px;
+  font-style: normal;
+  font-weight: 700;
+  line-height: 26px;
+  height: 48px;
+  padding: 11px 55px;
+  gap: 10px;
+  border-radius: 6px;
+  border: 1px solid var(--yellow-1, #ff993c);
+}
+
+.filter-filter-4 {
+  background-color: #ff993c;
+  color: var(--yellow-1, white);
+  font-family: monospace;
+  font-size: 18px;
+  font-style: normal;
+  font-weight: 700;
+  line-height: 26px;
+  margin-left: 10px;
+  /* display: inline-flex; */
+  height: 48px;
+  padding: 11px 55px;
+  justify-content: center;
+  align-items: center;
+  gap: 10px;
+  /* flex-shrink: 0; */
+  border-radius: 6px;
+  border: 1px solid var(--yellow-1, #ff993c);
+}
+
 .filter-ticket {
   padding-top: 30px;
   display: flex;
@@ -364,7 +406,15 @@ th:nth-child(8) {
 
 .overlay-content {
   width: 634px;
-  height: 454px;
+  height: 600px;
+  background-color: #ffffff;
+  padding: 20px;
+  border-radius: 8px;
+}
+
+.overlay-content-1 {
+  width: 634px;
+  height: 432px;
   background-color: #ffffff;
   padding: 20px;
   border-radius: 8px;
@@ -388,4 +438,17 @@ th:nth-child(8) {
 
 .radio-filter {
   padding-right: 4px;
+}
+
+.input-price {
+  width: 148px;
+  gap: 10px;
+}
+
+.select-ticket {
+  width: 170px;
+}
+
+.red {
+  color: red;
 }

@@ -17,9 +17,7 @@ const Home = () => {
           <SearchNotificationBar />
           <div className="content">
             <div className="content-main">
-              <h2 className="noo-sh-title">
-                We are <span>ThewayShop</span>
-              </h2>
+              <h2 className="noo-sh-title">Đây là trang chủ</h2>
               <p>
                 "Sed ut perspiciatis unde omnis iste natus error sit voluptatem
                 accusantium doloremque laudantium, totam rem aperiam, eaque ipsa

@@ -6,6 +6,7 @@ import { Icon } from "@iconify/react";
 const Navbar: React.FC = () => {
   const [activeNavItem, setActiveNavItem] = useState<number | null>(null);
   const [showSettingsSubMenu, setShowSettingsSubMenu] = useState(false);
+  const [showServicePackage, setShowServicePackage] = useState(false);
 
   const handleNavItemClick = (index: number) => {
     setActiveNavItem(index);
@@ -23,8 +24,12 @@ const Navbar: React.FC = () => {
       : "";
   };
 
-  const handleSettingsClick = () => {
-    setShowSettingsSubMenu(!showSettingsSubMenu);
+  const handleSettingsMouseEnter = () => {
+    setShowServicePackage(true);
+  };
+
+  const handleSettingsMouseLeave = () => {
+    setShowServicePackage(false);
   };
 
   return (
@@ -64,7 +69,8 @@ const Navbar: React.FC = () => {
           </li>
           <li
             className={getNavLinkClass("/settings")}
-            onClick={handleSettingsClick}
+            onMouseEnter={handleSettingsMouseEnter}
+            onMouseLeave={handleSettingsMouseLeave}
           >
             <NavLink to="/settings" onClick={() => handleNavItemClick(3)}>
               <Icon icon="uil:setting" /> Cài đặt
@@ -80,6 +86,20 @@ const Navbar: React.FC = () => {
                   </NavLink>
                 </li>
               </ul>
+            )}
+            {showServicePackage && (
+              <div className="service-package">
+                <ul>
+                  <li>
+                    <NavLink
+                      to="/settings/service-package"
+                      className={getNavLinkClass("/settings/service-package")}
+                    >
+                      Gói dịch vụ
+                    </NavLink>
+                  </li>
+                </ul>
+              </div>
             )}
           </li>
         </ul>

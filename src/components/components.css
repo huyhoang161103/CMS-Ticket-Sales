@@ -63,11 +63,7 @@
   color: white; /* Chữ màu trắng cho liên kết a trong mục được chọn */
 }
 
-.submenu .service-package {
-  background-color: red;
-}
-
-.submenu {
+/* .submenu {
   padding: 0;
   margin: 0;
   margin-top: 15px;
@@ -81,7 +77,7 @@
 .submenu a {
   font-size: 16px;
   line-height: 22px;
-}
+} */
 
 .menu .copyright {
   color: var(--text, #1e0d03);

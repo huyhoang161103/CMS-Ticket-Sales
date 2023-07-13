@@ -14,6 +14,7 @@
 
 .logo {
   padding-left: 63px;
+  padding-top: 15px;
   display: flex;
   justify-content: center;
   align-items: center;
@@ -135,7 +136,7 @@
   border-radius: 12px;
   background: #ede6e6;
   padding: 10px 16px;
-  width: 470px;
+
   height: 48px;
 }
 

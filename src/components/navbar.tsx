@@ -36,7 +36,9 @@ const Navbar: React.FC = () => {
     <div className="menu">
       <div className="navbar">
         <div className="logo">
-          <img src="/img/insight-05.png" alt="Logo" />
+          <NavLink to="/*">
+            <img src="/img/insight-05.png" alt="Logo" />
+          </NavLink>
         </div>
         <ul className="navigation">
           <li
@@ -105,7 +107,7 @@ const Navbar: React.FC = () => {
         </ul>
       </div>
       <div className="copyright">
-        &copy; {new Date().getFullYear()} Alta Software
+        Copyright &copy; {new Date().getFullYear()} Alta Software
       </div>
     </div>
   );

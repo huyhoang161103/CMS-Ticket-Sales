@@ -177,7 +177,7 @@ const Ticket: React.FC = () => {
                     </tr>
                   ))}
                 </tbody>
-                <div className="pagination-container">
+                <div className="pagination-container pagination-fixed">
                   <Pagination
                     defaultCurrent={1}
                     total={50}

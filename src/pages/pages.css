@@ -34,7 +34,7 @@
 }
 
 .content {
-  margin-right: 32px;
+  width: 98%;
   margin-bottom: 40px;
   border-radius: 24px;
   background: #fff;
@@ -331,8 +331,15 @@ th:nth-child(8) {
 
 .custom-pagination {
   display: flex;
+  width: 100%;
   justify-content: center;
   margin-top: 16px;
+}
+.pagination-fixed {
+  position: fixed;
+  bottom: 55px;
+  left: 53%;
+  z-index: 1;
 }
 
 .custom-pagination .ant-pagination-item-active {
